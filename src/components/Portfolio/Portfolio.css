@@ -61,16 +61,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
-  .portfolio {
-    padding-bottom: 70px;
-  }
-
-  .portfolio__heading {
-    margin-bottom: 40px;
-    font-size: 14px;
-  }
-
+@media screen and (max-width: 550px) {
   .portfolio__link {
     font-size: 18px;
     line-height: 28px;
@@ -79,5 +70,16 @@
   .portfolio__arrow {
     font-size: 18px;
     line-height: 28px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .portfolio {
+    padding-bottom: 70px;
+  }
+
+  .portfolio__heading {
+    margin-bottom: 40px;
+    font-size: 14px;
   }
 }

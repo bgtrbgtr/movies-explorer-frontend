@@ -53,13 +53,13 @@
   text-align: left;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 940px) {
   .signup {
     padding: 232px 24.2%;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 550px) {
   .signup {
     padding: 56px 30px 30px;
   }

@@ -8,7 +8,7 @@ function Header({ onPopupOpen }) {
   const context = useContext(AppContext);
 
   return (
-    <div
+    <header
       className={
         context.location.pathname === "/" ? "header main__header" : "header"
       }
@@ -74,7 +74,7 @@ function Header({ onPopupOpen }) {
           </Link>
         </>
       )}
-    </div>
+    </header>
   );
 }
 
