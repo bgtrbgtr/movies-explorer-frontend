@@ -2,10 +2,6 @@
   padding: 0 70px;
 }
 
-.main__header {
-  background-color: #465DFF;
-}
-
 @media screen and (max-width: 768px) {
   .page__main {
     padding: 0 50px;

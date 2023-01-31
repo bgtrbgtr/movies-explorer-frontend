@@ -1,4 +1,4 @@
-.menu-popup__underlay {
+.page__menu-popup-underlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   transition: visibility 0.3s, opacity 0.2s ease-in-out;
 }
 
-.menu-popup {
+.page__menu-popup {
   box-sizing: border-box;
   opacity: 1;
   padding: 22.5px 22.5px 92px;
@@ -30,43 +30,38 @@
   transition: width 0.5s, visibility 0.3s, opacity 0.2s;
 }
 
-.menu-popup__underlay_visible {
+.page__menu-popup-underlay_visible {
   visibility: visible;
   opacity: 1;
 }
 
-.menu-popup_visible {
+.page__menu-popup_visible {
   width: 520px;
   visibility: visible;
   opacity: 1;
 }
 
-.menu-popup__link:first-of-type {
+.page__menu-popup-link:first-of-type {
   margin-top: 75.5px;
 }
 
-.menu-popup__link {
+.page__menu-popup-link {
   margin: 0 auto 28px;
-  min-width: 340px;
   text-align: center;
-}
-
-.menu-popup__button {
-  padding: 0;
   color: #000;
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
   text-align: center;
-  border: none;
-  background: none;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.menu-popup__button_underlined {
+.page__menu-popup-link_underlined {
   border-bottom: solid #000 2px;
 }
 
-.menu-popup__close-button {
+.page__menu-popup-close-button {
   align-self: end;
   padding: 0;
   min-width: 22px;
@@ -75,43 +70,40 @@
   border: none;
 }
 
-.menu-popup__profile-link-box {
+.page__menu-popup-profile-link-box {
   margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.menu-popup__profile-link {
-  justify-self: end;
+.page__menu-popup-profile-link {
   margin: 0;
-}
-
-.menu-popup__profile-button {
-  margin: 0;
+  top: auto;
+  transform: none;
+  margin-left: 13px;
 }
 
 @media screen and (max-width: 520px) {
-  .menu-popup_visible {
+  .page__menu-popup_visible {
     width: 100%;
   }
 
-  .menu-popup {
+  .page__menu-popup {
     padding: 13.5px 13.5px 48px;
   }
 
-  .menu-popup__link {
-    min-width: 290px;
+  .page__menu-popup-link {
     margin-bottom: 24px;
   }
 
-  .menu-popup__profile-button {
+  .page__menu-popup-profile-link {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .menu-popup__link:first-of-type {
+  .page__menu-popup-link:first-of-type {
     margin-top: 99.5px;
   }
 }

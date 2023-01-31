@@ -1,32 +1,28 @@
-import { useForm } from "react-hook-form";
 import { Button } from "..";
 
 function SearchForm() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (e) => e.preventDefault();
-
   return (
     <>
-      <form className="search-form__form">
+      <form className="movies__search-form">
         <input
-          {...register("film", { required: true })}
+          required
           placeholder="Фильм"
           type="search"
-          className="search-form__input"
-          onSubmit={handleSubmit(onSubmit)}
+          className="movies__search-form-input"
         ></input>
-        <Button type="submit" className="search-form__form-button" />
+        <Button type="submit" className="movies__search-form-input-button" />
       </form>
-      <div className="search-form__switch-box">
-        <label className="search-form__filter-switch">
+      <div className="movies__search-form-switch-box">
+        <label className="movies__search-form-filter-switch">
           <input
-            {...register("shortFilm")}
-            className="search-form__input-switch"
+            className="movies__search-form-input-switch"
             type="checkbox"
           ></input>
-          <span className="search-form__slider"></span>
+          <span className="movies__search-form-slider"></span>
         </label>
-        <label className="search-form__switch-caption">Короткометражки</label>
+        <label className="movies__search-form-switch-caption">
+          Короткометражки
+        </label>
       </div>
     </>
   );

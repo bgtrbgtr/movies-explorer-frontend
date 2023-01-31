@@ -36,61 +36,58 @@ function MenuPopup({ isOpen, onClose }) {
   return (
     <>
       <div
-        className={`menu-popup__underlay ${
-          isOpen ? "menu-popup__underlay_visible" : null
+        className={`page__menu-popup-underlay ${
+          isOpen ? "page__menu-popup-underlay_visible" : null
         }`}
       >
-        <nav className={`menu-popup ${isOpen ? "menu-popup_visible" : null}`}>
-          <Button onClick={onClose} className="menu-popup__close-button" />
-          <Link to={"/"} className="menu-popup__link">
-            <Button
-              onClick={onClose}
-              className={`menu-popup__button ${
-                locationStatus.main ? "menu-popup__button_underlined" : null
-              }`}
-              buttonText="Главная"
-            />
+        <nav
+          className={`page__menu-popup ${
+            isOpen ? "page__menu-popup_visible" : null
+          }`}
+        >
+          <Button onClick={onClose} className="page__menu-popup-close-button" />
+          <Link
+            to={"/"}
+            className={`page__menu-popup-link ${
+              locationStatus.main ? "page__menu-popup-link_underlined" : null
+            }`}
+            onClick={onClose}
+          >
+            Главная
           </Link>
-          <Link to={"/movies"} className="menu-popup__link">
-            <Button
-              onClick={onClose}
-              className={`menu-popup__button ${
-                locationStatus.movies ? "menu-popup__button_underlined" : null
-              }`}
-              buttonText="Фильмы"
-            />
+          <Link
+            to={"/movies"}
+            className={`page__menu-popup-link ${
+              locationStatus.movies ? "page__menu-popup-link_underlined" : null
+            }`}
+            onClick={onClose}
+          >
+            Фильмы
           </Link>
-          <Link to={"/saved-movies"} className="menu-popup__link">
-            <Button
-              onClick={onClose}
-              className={`menu-popup__button ${
-                locationStatus.savedMovies
-                  ? "menu-popup__button_underlined"
-                  : null
-              }`}
-              buttonText="Сохраненные фильмы"
-            />
+          <Link
+            to={"/saved-movies"}
+            onClick={onClose}
+            className={`page__menu-popup-link ${
+              locationStatus.savedMovies
+                ? "page__menu-popup-link_underlined"
+                : null
+            }`}
+          >
+            Сохраненные фильмы
           </Link>
-          <div className="menu-popup__profile-link-box">
+          <div className="page__menu-popup-profile-link-box">
             <Link
+              onClick={onClose}
               to={"/profile"}
-              className="header__link menu-popup__profile-link"
+              className="header__link header__link_type_signed-bold page__menu-popup-profile-link"
             >
-              <Button
-                onClick={onClose}
-                className="header__button header__button_type_signed-bold menu-popup__profile-button"
-                buttonText="Аккаунт"
-              />
+              Аккаунт
             </Link>
             <Link
+              onClick={onClose}
               to={"/profile"}
-              className="header__link menu-popup__profile-link"
-            >
-              <Button
-                onClick={onClose}
-                className="header__button header__button_type_icon"
-              />
-            </Link>
+              className="header__link page__menu-popup-profile-link header__link_type_icon"
+            ></Link>
           </div>
         </nav>
       </div>

@@ -23,9 +23,10 @@ function Register() {
         title="Добро пожаловать!"
         buttonText="Зарегистрироваться"
         onSubmit={handleSubmit(onSubmit, onError)}
+        className="signup__form"
       >
-        <span className="signup-form__input-caption">Имя</span>
-        <div className="signup-form__input-wrapper">
+        <span className="signup__form-input-caption">Имя</span>
+        <div className="signup__form-input-wrapper">
           <input
             {...register("name", {
               required: true,
@@ -33,40 +34,40 @@ function Register() {
               maxLength: 40,
             })}
             type="text"
-            className="signup-form__input"
+            className="signup__form-input"
           ></input>
           {errors.name && (
-            <span className="field-error field-error_signup">
+            <span className="field-error field-error__signup">
               Укажите корректное имя
             </span>
           )}
         </div>
-        <span className="signup-form__input-caption">E-mail</span>
-        <div className="signup-form__input-wrapper">
+        <span className="signup__form-input-caption">E-mail</span>
+        <div className="signup__form-input-wrapper">
           <input
             {...register(
               "mail",
               { required: true },
               { validate: (value) => value.includes("@") }
             )}
-            className="signup-form__input"
+            className="signup__form-input"
             type="email"
           ></input>
           {errors.mail && (
-            <span className="field-error field-error_signup">
+            <span className="field-error field-error__signup">
               Укажите корректную почту
             </span>
           )}
         </div>
-        <span className="signup-form__input-caption">Пароль</span>
-        <div className="signup-form__input-wrapper">
+        <span className="signup__form-input-caption">Пароль</span>
+        <div className="signup__form-input-wrapper">
           <input
             {...register("pass", { required: true })}
-            className="signup-form__input signup-form__input_third"
+            className="signup__form-input signup__form-input-third"
             type="password"
           ></input>
           {errors.pass && (
-            <span className="field-error field-error_signin-password">
+            <span className="field-error field-error__signin-password">
               Что-то пошло не так
             </span>
           )}

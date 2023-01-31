@@ -10,7 +10,9 @@ function Header({ onPopupOpen }) {
   return (
     <header
       className={
-        context.location.pathname === "/" ? "header main__header" : "header"
+        context.location.pathname === "/"
+          ? "header header_location_main"
+          : "header"
       }
     >
       <Link className="header__logo" to={"/"}>
@@ -18,40 +20,41 @@ function Header({ onPopupOpen }) {
       </Link>
       {context.loggedIn ? (
         <>
-          <div className="header_visible">
-            <Link to={"/movies"} className="header__link">
-              <Button
-                className={
-                  context.location.pathname === "/"
-                    ? "header__button header__button_type_signed-bold header__button_color_white"
-                    : "header__button header__button_type_signed-bold"
-                }
-                buttonText="Фильмы"
-              />
+          <div className="header__invisible-wrapper">
+            <Link
+              to={"/movies"}
+              className={
+                context.location.pathname === "/"
+                  ? "header__link header__link_type_signed-bold header__link_color_white"
+                  : "header__link header__link_type_signed-bold"
+              }
+            >
+              Фильмы
             </Link>
-            <Link to={"/saved-movies"} className="header__link">
-              <Button
-                className={
-                  context.location.pathname === "/"
-                    ? "header__button header__button_type_signed-bold header__button_color_white"
-                    : "header__button header__button_type_signed-bold"
-                }
-                buttonText="Сохраненные фильмы"
-              />
+            <Link
+              to={"/saved-movies"}
+              className={
+                context.location.pathname === "/"
+                  ? "header__link header__link_type_signed-regular  header__link_color_white"
+                  : "header__link header__link_type_signed-regular"
+              }
+            >
+              Сохраненные фильмы
             </Link>
-            <Link to={"/profile"} className="header__link">
-              <Button
-                className={
-                  context.location.pathname === "/"
-                    ? "header__button header__button_type_signed-bold header__button_color_white"
-                    : "header__button header__button_type_signed-bold"
-                }
-                buttonText="Аккаунт"
-              />
+            <Link
+              to={"/profile"}
+              className={
+                context.location.pathname === "/"
+                  ? "header__link header__link_type_signed-bold header__link_color_white"
+                  : "header__link header__link_type_signed-bold"
+              }
+            >
+              Аккаунт
             </Link>
-            <Link to={"/profile"} className="header__link">
-              <Button className="header__button header__button_type_icon" />
-            </Link>
+            <Link
+              to={"/profile"}
+              className="header__link header__link_type_icon"
+            ></Link>
           </div>
           <Button
             onClick={onPopupOpen}
@@ -60,17 +63,14 @@ function Header({ onPopupOpen }) {
         </>
       ) : (
         <>
-          <Link to={"signup"} className="header__link">
-            <Button
-              className="header__button header__button_color_transparent"
-              buttonText="Регистрация"
-            />
+          <Link
+            to={"signup"}
+            className="header__link header__link_color_transparent"
+          >
+            Регистрация
           </Link>
-          <Link to={"signin"} className="header__link">
-            <Button
-              className="header__button header__button_color_green"
-              buttonText="Войти"
-            />
+          <Link to={"signin"} className="header__link header__link_color_green">
+            Войти
           </Link>
         </>
       )}

@@ -6,12 +6,12 @@
   margin-bottom: 40px;
 }
 
-.signup-form__input-wrapper {
+.signup__form-input-wrapper {
   position: relative;
   width: 100%;
 }
 
-.signup-form__input-caption {
+.signup__form-input-caption {
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
@@ -19,7 +19,7 @@
   margin-bottom: 5px;
 }
 
-.signup-form__input {
+.signup__form-input {
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -30,25 +30,25 @@
   width: 100%;
 }
 
-.signup-form__input:focus {
+.signup__form-input:focus {
   outline: none;
   border-bottom: 2px solid #FF6838;
 }
 
-.signup-form__input_third {
+.signup__form-input-third {
   margin-bottom: 152px;
 }
 
-.signup-form__input_second {
+.signup__form-input-second {
   margin-bottom: 221px;
 }
 
-.field-error_signup {
+.field-error__signup {
   text-align: left;
   bottom: 6px;
 }
 
-.field-error_signup-password {
+.field-error__signup-password {
   bottom: 136px;
   text-align: left;
 }
@@ -75,11 +75,11 @@
     margin: 0;
   }
 
-  .signup-form__input_third {
+  .signup__form-input-third {
     margin-bottom: 240px;
   }
 
-  .field-error_signup-password {
+  .field-error__signup-password {
     bottom: 222px;
     text-align: left;
   }
