@@ -1,0 +1,86 @@
+.signup {
+  padding: 71px 34.5% 70px;
+}
+
+.signup__logo {
+  margin-bottom: 40px;
+}
+
+.signup__form-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.signup__form-input-caption {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #A0A0A0;
+  margin-bottom: 5px;
+}
+
+.signup__form-input {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  border: none;
+  border-bottom: 1px solid #E8E8E8;
+  padding-bottom: 10px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.signup__form-input:focus {
+  outline: none;
+  border-bottom: 2px solid #FF6838;
+}
+
+.signup__form-input-third {
+  margin-bottom: 152px;
+}
+
+.signup__form-input-second {
+  margin-bottom: 221px;
+}
+
+.field-error__signup {
+  text-align: left;
+  bottom: 6px;
+}
+
+.field-error__signup-password {
+  bottom: 136px;
+  text-align: left;
+}
+
+@media screen and (max-width: 940px) {
+  .signup {
+    padding: 232px 24.2%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .signup {
+    padding: 56px 30px 30px;
+  }
+
+  .signup__logo {
+    position: relative;
+    margin-bottom: 50px;
+    left: 50%;
+    transform: translate(-19px);
+  }
+
+  .signup__header-logo {
+    margin: 0;
+  }
+
+  .signup__form-input-third {
+    margin-bottom: 240px;
+  }
+
+  .field-error__signup-password {
+    bottom: 222px;
+    text-align: left;
+  }
+}

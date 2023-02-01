@@ -1,0 +1,119 @@
+.movies__search-form {
+  padding: 0;
+  display: flex;
+  border: solid #F9F9F9 6px;
+  border-radius: 40px;
+  background-color: #F9F9F9;
+  margin-top: 60px;
+  margin-bottom: 41px;
+}
+
+.movies__search-form-input {
+  width: 100%;
+  border-radius: 40px;
+  border: none;
+  background-color: #F9F9F9;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+.movies__search-form-input::placeholder {
+  color: #A0A0A0;
+}
+
+.movies__search-form-input-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 48px;
+  padding: 0;
+  border: none;
+  background: #FF6838 no-repeat center url("../../images/enlarger.svg");
+}
+
+.movies__search-form-filter-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+.movies__search-form-input-switch {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.movies__search-form-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #E8E8E8;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.movies__search-form-slider:before {
+  position: absolute;
+  background-color: #F5F5F5;
+  border: solid #fff 1px;
+  border-radius: 50%;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  transition: 0.4s;
+}
+
+input:checked + .movies__search-form-slider {
+  background-color: #E8E8E8;
+}
+
+input:checked + .movies__search-form-slider::before {
+  transform: translateX(16px);
+  background-color: #2BE080;
+}
+
+.movies__search-form-switch-box {
+  display: flex;
+  padding-bottom: 70px;
+  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 10px;
+}
+
+.movies__search-form-switch-caption {
+  margin: 0;
+  margin-right: auto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@media screen and (max-width: 768px) {
+  .movies__search-form-switch-box {
+    padding-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .movies__search-form-input {
+  font-size: 11px;
+  line-height: 17px;
+  }
+
+  .movies__search-form-input-button {
+    min-width: 34px;
+  }
+
+  .movies__search-form-switch-caption {
+    font-size: 11px;
+  }
+}
