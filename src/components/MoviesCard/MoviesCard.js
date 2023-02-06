@@ -27,11 +27,7 @@ function MoviesCard({ card, handleLike, handleDelete }) {
 
   return (
     <div
-      className={
-        context.location.pathname === "/saved-movies"
-          ? "movies-card movies-card_type_saved"
-          : "movies-card"
-      }
+      className="movies-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

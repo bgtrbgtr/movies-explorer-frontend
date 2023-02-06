@@ -1,29 +1,21 @@
 import { useContext, useEffect } from "react";
-import { AppContext } from "../../contexts";
+import { AppContext, CurrentUserContext } from "../../contexts";
 import { useForm } from "react-hook-form";
 import { Button } from "..";
 
-function SearchForm({
-  onSearchFormSubmit,
-  onSearchQueryInput,
-  setFirstRender,
-}) {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    getValues,
-  } = useForm({ mode: "onChange" });
+function SearchForm({ onSearchFormSubmit, onSearchQueryInput }) {
+  const { register, handleSubmit, getValues } = useForm({
+    mode: "onChange",
+  });
 
   const appContext = useContext(AppContext);
-  const isSwitchOn = appContext.isSwitchOn;
+  const userContext = useContext(CurrentUserContext);
+  const savedMovies = userContext.savedMovies;
+  const isSavedMoviesSwitchOn = appContext.isSavedMoviesSwitchOn;
+  const onSwitchToggle = appContext.onSaveMoviesSwitchToggle;
 
-  const onSubmitAllMovies = () => {
-    onSearchFormSubmit();
-  };
-
-  const onRender = () => {
-    setFirstRender(false);
+  const onSubmitSavedMovies = (data) => {
+    onSearchFormSubmit(savedMovies, data);
   };
 
   useEffect(() => {
@@ -41,40 +33,32 @@ function SearchForm({
     <>
       <form
         onSubmit={handleSubmit((data) => {
-          localStorage.setItem("searchQuery", JSON.stringify(data.film));
+          localStorage.setItem(
+            "searchSavedMoviesQuery",
+            JSON.stringify(data.film)
+          );
           onSearchQueryInput(data.film);
-          onSubmitAllMovies();
+          onSubmitSavedMovies(data.film);
         })}
         className="movies__search-form"
       >
         <input
           {...register("film", {
-            required: "Нужно ввести ключевое слово",
-            value: JSON.parse(localStorage.getItem("searchQuery")),
+            value: JSON.parse(localStorage.getItem("searchSavedMoviesQuery")),
           })}
-          placeholder={errors.film ? `${errors.film.message}` : "Фильм"}
+          placeholder="Фильм"
           type="search"
-          name="film"
-          className={
-            errors.film
-              ? "movies__search-form-input movies__search-form-input-invalid"
-              : "movies__search-form-input"
-          }
+          className="movies__search-form-input"
         ></input>
-        <Button
-          type="submit"
-          className="movies__search-form-input-button"
-          onClick={onRender}
-        />
+        <Button type="submit" className="movies__search-form-input-button" />
       </form>
       <div className="movies__search-form-switch-box">
         <label className="movies__search-form-filter-switch">
           <input
-            {...register("switch", { value: isSwitchOn })}
-            onClick={appContext.onSwitchToggle}
+            {...register("switch", { value: isSavedMoviesSwitchOn })}
+            onClick={onSwitchToggle}
             className="movies__search-form-input-switch"
             type="checkbox"
-            name="shortFilm"
           ></input>
           <span className="movies__search-form-slider"></span>
         </label>

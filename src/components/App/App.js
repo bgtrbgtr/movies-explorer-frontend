@@ -29,7 +29,7 @@ function App() {
     status: false,
     message: "",
   });
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState();
   const [isRegistrationOk, setIsRegistrationOk] = useState({
     status: true,
     message: "При регистрации пользователя произошла ошибка",
@@ -43,10 +43,16 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(true);
+  const [isSavedMoviesSwitchOn, setIsSavedMoviesSwitchOn] = useState(true);
 
   const onSwitchToggle = (e) => {
     setIsSwitchOn(e.target.checked);
     localStorage.setItem("isSwitchOn", e.target.checked);
+  };
+
+  const onSavedMoviesSwitchToggle = (e) => {
+    setIsSavedMoviesSwitchOn(e.target.checked);
+    localStorage.setItem("isSavedMoviesSwitchOn", e.target.checked);
   };
 
   const handlePopupClose = () => {
@@ -180,7 +186,9 @@ function App() {
         isDeleted: isDeleted,
         isLiked: isLiked,
         isSwitchOn: isSwitchOn,
+        isSavedMoviesSwitchOn: isSavedMoviesSwitchOn,
         onSwitchToggle: onSwitchToggle,
+        onSaveMoviesSwitchToggle: onSavedMoviesSwitchToggle,
         getSavedMoviesCards: getSavedMoviesCards,
       }}
     >

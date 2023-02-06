@@ -50,7 +50,11 @@ function MoviesCardList({
       <section className="movies-card-list">
         <SavedMovies
           handleDeleteCard={handleDeleteCard}
-          cards={appContext.isSwitchOn ? shortSavedResults : savedSearchResults}
+          cards={
+            appContext.isSavedMoviesSwitchOn
+              ? shortSavedResults
+              : savedSearchResults
+          }
         />
       </section>
     );

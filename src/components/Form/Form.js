@@ -24,24 +24,25 @@ function Form({ name, onSubmit, title, buttonText, children, formState }) {
       {location.pathname === "/signup" ? (
         <p
           className={`field-error field-error__submit ${
-            isRegistrationOk.status ? "field-error__submit_invisible" : null
+            isRegistrationOk.status ? "field-error__submit_invisible" : ""
           }`}
         >
           {isRegistrationOk.message}
         </p>
-      ) : (
+      ) : null}
+      {location.pathname === "/signin" ? (
         <p
           className={`field-error field-error__submit ${
-            loggedIn.status ? "field-error__submit_invisible" : null
+            loggedIn.status ? "" : "field-error__submit_invisible"
           }`}
         >
           {loggedIn.message}
         </p>
-      )}
+      ) : null}
       <Button
         ariaLabel="Отправить данные"
         type="submit"
-        className={`form__submit ${formState ? null : "form__submit_disable"}`}
+        className={`form__submit ${formState ? "" : "form__submit_disable"}`}
         buttonText={buttonText}
         disabled={!formState}
       />

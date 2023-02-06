@@ -7,13 +7,12 @@ import { useContext } from "react";
 function Header({ onPopupOpen }) {
   const appContext = useContext(AppContext);
   const navContext = useContext(NavContext);
+  const currentLocation = navContext.location.pathname;
 
   return (
     <header
       className={
-        navContext.location.pathname === "/"
-          ? "header header_location_main"
-          : "header"
+        currentLocation === "/" ? "header header_location_main" : "header"
       }
     >
       <Link className="header__logo" to={"/"}>
@@ -25,9 +24,12 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/movies"}
               className={
-                navContext.location.pathname === "/"
-                  ? "header__link header__link_type_signed-bold header__link_color_white"
-                  : "header__link header__link_type_signed-bold"
+                currentLocation === "/"
+                  ? "header__link header__link_type_signed-regular header__link_color_white"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/movies"
+                  ? "header__link header__link_type_signed-bold"
+                  : "header__link header__link_type_signed-regular"
               }
             >
               Фильмы
@@ -35,9 +37,12 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/saved-movies"}
               className={
-                navContext.location.pathname === "/"
+                currentLocation === "/"
                   ? "header__link header__link_type_signed-regular  header__link_color_white"
-                  : "header__link header__link_type_signed-regular"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/saved-movies"
+                  ? "header__link header__link_type_signed_bold"
+                  : "header__link header__link_type_signed_regular"
               }
             >
               Сохраненные фильмы
@@ -45,9 +50,12 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/profile"}
               className={
-                navContext.location.pathname === "/"
-                  ? "header__link header__link_type_signed-bold header__link_color_white"
-                  : "header__link header__link_type_signed-bold"
+                currentLocation === "/"
+                  ? "header__link header__link_type_signed-regular header__link_color_white"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/profile"
+                  ? "header__link header__link_type_signed-bold"
+                  : "header__link header__link_type_signed-regular"
               }
             >
               Аккаунт

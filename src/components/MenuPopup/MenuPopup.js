@@ -1,38 +1,11 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AppContext, NavContext } from "../../contexts";
+import { NavContext } from "../../contexts";
 import { Button } from "..";
 
 function MenuPopup({ isOpen, onClose }) {
-  const [locationStatus, setLocationStatus] = useState({
-    main: false,
-    movies: false,
-    savedMovies: false,
-  });
-
-  const appContext = useContext(AppContext);
   const navContext = useContext(NavContext);
   const currentLocation = navContext.location.pathname;
-
-  function locate() {
-    switch (currentLocation) {
-      case "/":
-        setLocationStatus({ main: true, movies: false, savedMovies: false });
-        break;
-      case "/movies":
-        setLocationStatus({ main: false, movies: true, savedMovies: false });
-        break;
-      case "/saved-movies":
-        setLocationStatus({ main: false, movies: false, savedMovies: true });
-        break;
-      default:
-        setLocationStatus({ main: false, movies: false, savedMovies: false });
-    }
-  }
-
-  useEffect(() => {
-    locate();
-  }, [currentLocation]);
 
   return (
     <>
@@ -50,7 +23,9 @@ function MenuPopup({ isOpen, onClose }) {
           <Link
             to={"/"}
             className={`page__menu-popup-link ${
-              locationStatus.main ? "page__menu-popup-link_underlined" : null
+              currentLocation === "/"
+                ? "page__menu-popup-link_underlined"
+                : null
             }`}
             onClick={onClose}
           >
@@ -59,7 +34,9 @@ function MenuPopup({ isOpen, onClose }) {
           <Link
             to={"/movies"}
             className={`page__menu-popup-link ${
-              locationStatus.movies ? "page__menu-popup-link_underlined" : null
+              currentLocation === "/movies"
+                ? "page__menu-popup-link_underlined"
+                : null
             }`}
             onClick={onClose}
           >
@@ -69,7 +46,7 @@ function MenuPopup({ isOpen, onClose }) {
             to={"/saved-movies"}
             onClick={onClose}
             className={`page__menu-popup-link ${
-              locationStatus.savedMovies
+              currentLocation === "/saved-movies"
                 ? "page__menu-popup-link_underlined"
                 : null
             }`}
