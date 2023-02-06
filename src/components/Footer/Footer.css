@@ -1,7 +1,7 @@
 .footer {
+  margin-top: auto;
   padding: 79px 70px 20px;
   background-color:  #FAFAFA;
-  justify-self: end;
 }
 
 .footer__caption {

@@ -2,15 +2,22 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form } from "..";
 import logoSvg from "../../images/logo.svg";
+import { NavContext } from "../../contexts";
+import { useContext } from "react";
+import Joi from "joi-browser";
 
 function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => console.log(data);
+  const navContext = useContext(NavContext);
+
+  const onSubmit = ({ email, password }) => {
+    navContext.onLogin({ email, password });
+  };
   const onError = (errors, e) => console.log(errors, e);
 
   return (
@@ -24,33 +31,36 @@ function Login() {
         buttonText="Войти"
         onSubmit={handleSubmit(onSubmit, onError)}
         className="signup__form"
+        formState={isValid}
       >
         <span className="signup__form-input-caption">E-mail</span>
         <div className="signup__form-input-wrapper">
           <input
-            {...register(
-              "mail",
-              { required: true },
-              { validate: (value) => value.includes("@") }
-            )}
+            {...register("email", {
+              required: "Укажите почту",
+              validate: (value) => {
+                const result = Joi.validate(value, Joi.string().email());
+                return result.error ? "Укажите корректную почту" : null;
+              },
+            })}
             className="signup__form-input"
           ></input>
-          {errors.mail && (
+          {errors.email && (
             <span className="field-error field-error__signup">
-              Укажите корректную почту
+              {errors.email.message}
             </span>
           )}
         </div>
         <span className="signup__form-input-caption">Пароль</span>
         <div className="signup__form-input-wrapper">
           <input
-            {...register("pass", { required: true })}
+            {...register("password", { required: "Укажите пароль" })}
             className="signup__form-input signup__form-input-second"
             type="password"
           ></input>
-          {errors.pass && (
+          {errors.password && (
             <span className="field-error field-error__signin-password">
-              Что-то пошло не так
+              {errors.password.message}
             </span>
           )}
         </div>

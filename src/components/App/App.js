@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
 import {
   Main,
   Movies,
@@ -8,77 +13,180 @@ import {
   Register,
   NotFound,
   Layout,
-  MenuPopup,
+  ProtectedRoute,
 } from "..";
-import { AppContext } from "../../contexts/AppContext";
-import { moviesApi } from "../../utils/MoviesApi";
+import { mainApi, moviesApi } from "../../utils";
+import { AppContext, CurrentUserContext } from "../../contexts";
+import AppLayout from "../AppLayout/AppLayout";
+import { moviesFilter } from "../../utils";
 
 function App() {
-  let location = useLocation();
-  const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cards, setCards] = useState([]);
+  const token = localStorage.getItem("jwt");
+  mainApi.setToken(token);
+  const [loggedIn, setLoggedIn] = useState({
+    status: false,
+    message: "",
+  });
+  const [currentUser, setCurrentUser] = useState({});
+  const [isRegistrationOk, setIsRegistrationOk] = useState({
+    status: true,
+    message: "При регистрации пользователя произошла ошибка",
+  });
+  const [isChangeInfoOk, setIsChangeInfoOk] = useState({
+    status: true,
+    message: "При обновлении профиля произошла ошибка",
+  });
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  const [cards, setCards] = useState();
+  const [isSwitchOn, setIsSwitchOn] = useState(true);
 
-  function getMoviesCards() {
+  const onSwitchToggle = (e) => {
+    setIsSwitchOn(e.target.checked);
+    localStorage.setItem("isSwitchOn", e.target.checked);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
+  const getSavedMoviesCards = () => {
+    mainApi
+      .getSavedMovies()
+      .then((res) => setSavedMovies(res))
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    if (loggedIn.status) {
+      getSavedMoviesCards();
+    }
+  }, []);
+
+  const filterSavedMoviesCards = (savedMovies, query) => {
+    return moviesFilter.getSearchResults(savedMovies, query);
+  };
+
+  const getMoviesCards = () => {
+    setIsLoading(true);
     moviesApi
       .getMoviesInfo()
       .then((cards) => {
         setCards(cards);
+        setIsLoading(false);
       })
-      .catch((e) => console.error());
-  }
-
-  function handleLogout() {
-    setLoggedIn(false);
-    navigate("/");
-  }
-
-  useEffect(() => {
-    getMoviesCards();
-  }, []);
-
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
+      .catch((e) => console.error(e));
   };
 
   const handlePopupOpen = () => {
     setIsPopupOpen(true);
   };
 
+  const handleDeleteCard = (card) => {
+    mainApi
+      .deleteMovie(card._id)
+      .then((res) => {
+        setIsDeleted(!isDeleted);
+        const newSaved = savedMovies.filter((c) => c.nameRU !== res.nameRU);
+        setSavedMovies(newSaved);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  function handleMovieLike(card) {
+    let savedCard;
+    const isLiked = savedMovies.some((i) => {
+      savedCard = i.nameRU === card.nameRU ? i : null;
+      return i.nameRU === card.nameRU;
+    });
+    if (!isLiked) {
+      mainApi.addMovieToSaved(card).then((res) => {
+        mainApi.likeCard(res, false).then((newCard) => {
+          setSavedMovies([...savedMovies, newCard]);
+        });
+
+        setIsLiked(!isLiked);
+      });
+    } else {
+      handleDeleteCard(savedCard);
+    }
+  }
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route
+        element={
+          <AppLayout
+            setLoggedIn={setLoggedIn}
+            setCurrentUser={setCurrentUser}
+            isPopupOpen={isPopupOpen}
+            onPopupClose={handlePopupClose}
+            setSavedMovies={setSavedMovies}
+            setIsRegistrationOk={setIsRegistrationOk}
+            setIsChangeInfoOk={setIsChangeInfoOk}
+          />
+        }
+      >
+        <Route path="/" element={<Layout handlePopupOpen={handlePopupOpen} />}>
+          <Route index element={<Main />} />
+
+          <Route element={<ProtectedRoute user={currentUser} />}>
+            <Route
+              path="movies"
+              index
+              element={
+                <Movies
+                  onSearchFormSubmit={getMoviesCards}
+                  cards={cards}
+                  isLoading={isLoading}
+                  handleLike={handleMovieLike}
+                />
+              }
+            />
+
+            <Route
+              path="saved-movies"
+              element={
+                <Movies
+                  onSearchFormSubmit={filterSavedMoviesCards}
+                  handleDeleteCard={handleDeleteCard}
+                />
+              }
+            />
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoute user={currentUser} />}>
+          <Route
+            path="profile"
+            element={<Profile onPopupOpen={handlePopupOpen} />}
+          />
+        </Route>
+        <Route path="signin" element={<Login />} />
+        <Route path="signup" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    )
+  );
+
   return (
     <AppContext.Provider
       value={{
-        location: location,
         loggedIn: loggedIn,
+        isRegistrationOk: isRegistrationOk,
+        isChangeInfoOk: isChangeInfoOk,
+        isDeleted: isDeleted,
+        isLiked: isLiked,
+        isSwitchOn: isSwitchOn,
+        onSwitchToggle: onSwitchToggle,
+        getSavedMoviesCards: getSavedMoviesCards,
       }}
     >
-      <div className="page">
-        <Routes>
-          <Route
-            path="/"
-            element={<Layout handlePopupOpen={handlePopupOpen} />}
-          >
-            <Route index element={<Main />} />
-            <Route path="movies" element={<Movies cards={cards} />} />
-            <Route path="saved-movies" element={<Movies cards={cards} />} />
-          </Route>
-          <Route
-            path="profile"
-            element={
-              <Profile
-                onPopupOpen={handlePopupOpen}
-                handleLogout={handleLogout}
-              />
-            }
-          />
-          <Route path="signin" element={<Login />} />
-          <Route path="signup" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <MenuPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
-      </div>
+      <CurrentUserContext.Provider value={{ currentUser, savedMovies }}>
+        <RouterProvider router={router} />
+      </CurrentUserContext.Provider>
     </AppContext.Provider>
   );
 }

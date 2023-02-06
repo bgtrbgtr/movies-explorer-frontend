@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AppContext } from "../../contexts/AppContext";
+import { AppContext, NavContext } from "../../contexts";
 import { Button } from "..";
 
 function MenuPopup({ isOpen, onClose }) {
@@ -10,8 +10,9 @@ function MenuPopup({ isOpen, onClose }) {
     savedMovies: false,
   });
 
-  const context = useContext(AppContext);
-  const currentLocation = context.location.pathname;
+  const appContext = useContext(AppContext);
+  const navContext = useContext(NavContext);
+  const currentLocation = navContext.location.pathname;
 
   function locate() {
     switch (currentLocation) {

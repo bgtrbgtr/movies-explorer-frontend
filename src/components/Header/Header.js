@@ -1,16 +1,17 @@
 import { Button } from "..";
 import { Link } from "react-router-dom";
 import logoSvg from "../../images/logo.svg";
-import { AppContext } from "../../contexts/AppContext";
+import { AppContext, NavContext } from "../../contexts";
 import { useContext } from "react";
 
 function Header({ onPopupOpen }) {
-  const context = useContext(AppContext);
+  const appContext = useContext(AppContext);
+  const navContext = useContext(NavContext);
 
   return (
     <header
       className={
-        context.location.pathname === "/"
+        navContext.location.pathname === "/"
           ? "header header_location_main"
           : "header"
       }
@@ -18,13 +19,13 @@ function Header({ onPopupOpen }) {
       <Link className="header__logo" to={"/"}>
         <img alt="Main logo" src={logoSvg} />
       </Link>
-      {context.loggedIn ? (
+      {appContext.loggedIn.status ? (
         <>
           <div className="header__invisible-wrapper">
             <Link
               to={"/movies"}
               className={
-                context.location.pathname === "/"
+                navContext.location.pathname === "/"
                   ? "header__link header__link_type_signed-bold header__link_color_white"
                   : "header__link header__link_type_signed-bold"
               }
@@ -34,7 +35,7 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/saved-movies"}
               className={
-                context.location.pathname === "/"
+                navContext.location.pathname === "/"
                   ? "header__link header__link_type_signed-regular  header__link_color_white"
                   : "header__link header__link_type_signed-regular"
               }
@@ -44,7 +45,7 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/profile"}
               className={
-                context.location.pathname === "/"
+                navContext.location.pathname === "/"
                   ? "header__link header__link_type_signed-bold header__link_color_white"
                   : "header__link header__link_type_signed-bold"
               }

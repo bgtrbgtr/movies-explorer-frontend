@@ -63,6 +63,11 @@
   background-color: transparent;
 }
 
+.profile__form-submit-button_disabled {
+  color: #C2C2C2;
+  cursor: not-allowed;
+}
+
 .profile__logout-button {
   font-size: 13px;
   font-weight: 500;
