@@ -40,7 +40,8 @@ function SearchForm({ onSearchQueryInput, setFirstRender }) {
       <form
         onSubmit={handleSubmit((data) => {
           localStorage.setItem("searchQuery", JSON.stringify(data.film));
-          onSearchQueryInput(data.film);
+          onSearchQueryInput({ all: data.film });
+          onRender();
         })}
         className="movies__search-form"
       >
@@ -61,7 +62,7 @@ function SearchForm({ onSearchQueryInput, setFirstRender }) {
         <Button
           type="submit"
           className="movies__search-form-input-button"
-          onClick={onRender}
+          // onClick={onRender}
         />
       </form>
       <div className="movies__search-form-switch-box">

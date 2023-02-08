@@ -3,7 +3,10 @@ import { NavContext } from "../../contexts";
 import { MoviesCardList, SearchForm, SearchSavedForm, Preloader } from "..";
 
 function Movies({ cards, isLoading, handleLike, handleDeleteCard }) {
-  const [searchQuery, setSearchQuery] = useState();
+  const [searchQuery, setSearchQuery] = useState({
+    all: "",
+    saved: "",
+  });
   const [firstRender, setFirstRender] = useState(true);
   const navContext = useContext(NavContext);
   const location = navContext.location.pathname;

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { AppContext, CurrentUserContext } from "../../contexts";
+import { AppContext } from "../../contexts";
 import { useForm } from "react-hook-form";
 import { Button } from "..";
 
@@ -22,7 +22,7 @@ function SearchForm({ onSearchQueryInput }) {
       form.requestSubmit(submitButton);
     }
 
-    return () => onSearchQueryInput("");
+    return () => onSearchQueryInput({ saved: "" });
   }, []);
 
   return (
@@ -30,11 +30,11 @@ function SearchForm({ onSearchQueryInput }) {
       <form
         onChange={(e) => {
           if (e.target.value === "") {
-            onSearchQueryInput("");
+            onSearchQueryInput({ saved: "" });
           }
         }}
         onSubmit={handleSubmit((data) => {
-          onSearchQueryInput(data.film);
+          onSearchQueryInput({ saved: data.film });
         })}
         className="movies__search-form"
       >

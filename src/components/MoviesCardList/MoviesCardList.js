@@ -24,11 +24,13 @@ function MoviesCardList({
     moviesFilter.defineLimitToSet(screenWidth, setLimit, setCardsToUpload);
   }, [screenWidth]);
 
-  const searchResults = moviesFilter.getSearchResults(cards, searchQuery);
+  const searchResults = searchQuery.all
+    ? moviesFilter.getSearchResults(cards, searchQuery.all)
+    : [];
 
   const savedSearchResults = moviesFilter.getSearchResults(
     savedMovies,
-    searchQuery
+    searchQuery.saved
   );
   let shortFilmsResults = moviesFilter.getShortFilmsFromResults(searchResults);
   let shortSavedResults = moviesFilter.getShortFilmsFromResults(

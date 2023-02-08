@@ -71,10 +71,6 @@ function App() {
     setIsSwitchOn(formSwitchStatus);
   }, []);
 
-  const filterSavedMoviesCards = (savedMovies, query) => {
-    return moviesFilter.getSearchResults(savedMovies, query);
-  };
-
   const downloadMoviesCards = () => {
     setIsLoading(true);
     moviesApi
@@ -156,12 +152,7 @@ function App() {
 
             <Route
               path="saved-movies"
-              element={
-                <Movies
-                  onSearchFormSubmit={filterSavedMoviesCards}
-                  handleDeleteCard={handleDeleteCard}
-                />
-              }
+              element={<Movies handleDeleteCard={handleDeleteCard} />}
             />
           </Route>
         </Route>
