@@ -16,6 +16,7 @@ function MoviesCardList({
   const [limit, setLimit] = useState(12);
   const [cardsToUpload, setCardsToUpload] = useState(3);
   const appContext = useContext(AppContext);
+  const isSavedMoviesSwitchOn = appContext.isSavedMoviesSwitchOn;
 
   const screenWidth = useScreenWidth();
 
@@ -24,13 +25,15 @@ function MoviesCardList({
   }, [screenWidth]);
 
   const searchResults = moviesFilter.getSearchResults(cards, searchQuery);
+
   const savedSearchResults = moviesFilter.getSearchResults(
     savedMovies,
     searchQuery
   );
   let shortFilmsResults = moviesFilter.getShortFilmsFromResults(searchResults);
-  let shortSavedResults =
-    moviesFilter.getShortFilmsFromResults(savedSearchResults);
+  let shortSavedResults = moviesFilter.getShortFilmsFromResults(
+    savedSearchResults.length === 0 ? savedMovies : savedSearchResults
+  );
 
   if (context.location.pathname === "/movies") {
     return (
@@ -50,10 +53,9 @@ function MoviesCardList({
       <section className="movies-card-list">
         <SavedMovies
           handleDeleteCard={handleDeleteCard}
-          cards={
-            appContext.isSavedMoviesSwitchOn
-              ? shortSavedResults
-              : savedSearchResults
+          cards={isSavedMoviesSwitchOn ? shortSavedResults : savedMovies}
+          searchResults={
+            isSavedMoviesSwitchOn ? shortSavedResults : savedSearchResults
           }
         />
       </section>

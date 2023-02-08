@@ -15,25 +15,30 @@ function Profile({ onPopupOpen }) {
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isValid, isSubmitSuccessful },
-  } = useForm({ mode: "onChange" });
-
-  useEffect(() => {
-    reset({ name: "", email: "" });
-  }, [isSubmitSuccessful]);
+    formState: { errors, isValid, isSubmitted },
+  } = useForm({
+    mode: "onChange",
+    values: {
+      name: userContext?.name,
+      email: userContext?.email,
+    },
+    resetOptions: {
+      keepIsSubmitted: true,
+    },
+  });
 
   const onSubmit = ({ name, email }) => {
     handleChangeUserInfo({
-      name: name || userContext.name,
-      email: email || userContext.email,
+      name,
+      email,
     });
   };
+
   return (
     <div>
       <Header onPopupOpen={onPopupOpen} />
       <section className="profile">
-        <h2 className="profile__heading">Привет, {userContext.name}!</h2>
+        <h2 className="profile__heading">Привет, {userContext?.name}!</h2>
         <form
           name="profile-info"
           className="profile__form"
@@ -53,13 +58,13 @@ function Profile({ onPopupOpen }) {
                   message: "Имя не должно содержать более 30 симолов",
                 },
                 validate: (value) => {
-                  const result = value !== userContext.name;
+                  const result = value !== userContext?.name;
                   return result ? null : "Новое имя совпадает с текущим";
                 },
               })}
               type="text"
               className="profile__form-input"
-              placeholder={userContext.name}
+              placeholder="Name"
             ></input>
             {errors.name && (
               <span className="field-error">{errors.name.message}</span>
@@ -72,30 +77,37 @@ function Profile({ onPopupOpen }) {
                 validate: {
                   isCorrect: (value) => {
                     if (value) {
-                      const result = Joi.validate(value, Joi.string().email());
+                      const result = Joi.validate(
+                        value,
+                        Joi.string().email({ minDomainAtoms: 2 })
+                      );
                       return result.error ? "Укажите корректную почту" : null;
                     }
                   },
                   isNew: (value) => {
-                    const result = value !== userContext.email;
+                    const result = value !== userContext?.email;
                     return result ? null : "Новая почта совпадает с текущей";
                   },
                 },
               })}
               className="profile__form-input profile__form-input_unbordered"
-              placeholder={userContext.email}
+              placeholder="example@email.com"
             ></input>
             {errors.email && (
               <span className="field-error">{errors.email.message}</span>
             )}
           </div>
-          <p
-            className={`field-error field-error__submit ${
-              isChangeInfoOk.status ? "field-error__submit_invisible" : null
-            }`}
-          >
-            {isChangeInfoOk.message}
-          </p>
+
+          {(isSubmitted && (
+            <p
+              className={`field-error field-error__submit ${
+                isChangeInfoOk.status ? "field-error__no-errors" : null
+              }`}
+            >
+              {isChangeInfoOk.message}
+            </p>
+          )) || <p className="field-error field-error__submit"></p>}
+
           <Button
             className={`profile__form-submit-button ${
               isValid ? null : "profile__form-submit-button_disabled"

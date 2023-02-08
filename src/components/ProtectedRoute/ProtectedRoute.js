@@ -1,6 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ user, redirectPath = "/" }) {
+function ProtectedRoute({ redirectPath = "/" }) {
+  const user = localStorage.getItem("jwt");
+
   if (!user) {
     return <Navigate to={redirectPath} replace />;
   }

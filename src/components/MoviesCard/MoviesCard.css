@@ -95,3 +95,9 @@
     height: 262px;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .movies-card__delete-icon {
+    visibility: visible;
+  }
+}

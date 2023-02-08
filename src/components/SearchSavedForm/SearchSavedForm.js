@@ -3,20 +3,14 @@ import { AppContext, CurrentUserContext } from "../../contexts";
 import { useForm } from "react-hook-form";
 import { Button } from "..";
 
-function SearchForm({ onSearchFormSubmit, onSearchQueryInput }) {
+function SearchForm({ onSearchQueryInput }) {
   const { register, handleSubmit, getValues } = useForm({
     mode: "onChange",
   });
 
   const appContext = useContext(AppContext);
-  const userContext = useContext(CurrentUserContext);
-  const savedMovies = userContext.savedMovies;
   const isSavedMoviesSwitchOn = appContext.isSavedMoviesSwitchOn;
   const onSwitchToggle = appContext.onSaveMoviesSwitchToggle;
-
-  const onSubmitSavedMovies = (data) => {
-    onSearchFormSubmit(savedMovies, data);
-  };
 
   useEffect(() => {
     let form = document.querySelector(".movies__search-form");
@@ -27,28 +21,28 @@ function SearchForm({ onSearchFormSubmit, onSearchQueryInput }) {
     if (getValues().film) {
       form.requestSubmit(submitButton);
     }
+
+    return () => onSearchQueryInput("");
   }, []);
 
   return (
     <>
       <form
+        onChange={(e) => {
+          if (e.target.value === "") {
+            onSearchQueryInput("");
+          }
+        }}
         onSubmit={handleSubmit((data) => {
-          localStorage.setItem(
-            "searchSavedMoviesQuery",
-            JSON.stringify(data.film)
-          );
           onSearchQueryInput(data.film);
-          onSubmitSavedMovies(data.film);
         })}
         className="movies__search-form"
       >
         <input
-          {...register("film", {
-            value: JSON.parse(localStorage.getItem("searchSavedMoviesQuery")),
-          })}
-          placeholder="Фильм"
-          type="search"
+          {...register("film")}
           className="movies__search-form-input"
+          placeholder={"Фильм"}
+          type="search"
         ></input>
         <Button type="submit" className="movies__search-form-input-button" />
       </form>

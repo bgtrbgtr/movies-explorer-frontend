@@ -3,11 +3,7 @@ import { AppContext } from "../../contexts";
 import { useForm } from "react-hook-form";
 import { Button } from "..";
 
-function SearchForm({
-  onSearchFormSubmit,
-  onSearchQueryInput,
-  setFirstRender,
-}) {
+function SearchForm({ onSearchQueryInput, setFirstRender }) {
   const {
     register,
     formState: { errors },
@@ -17,10 +13,7 @@ function SearchForm({
 
   const appContext = useContext(AppContext);
   const isSwitchOn = appContext.isSwitchOn;
-
-  const onSubmitAllMovies = () => {
-    onSearchFormSubmit();
-  };
+  const onSwitchToggle = appContext.onSwitchToggle;
 
   const onRender = () => {
     setFirstRender(false);
@@ -31,9 +24,14 @@ function SearchForm({
     let submitButton = document.querySelector(
       ".movies__search-form-input-button"
     );
+    let formSwitch = document.querySelector(
+      ".movies__search-form-input-switch"
+    );
+    let formSwitchStatus = JSON.parse(localStorage.getItem("isSwitchOn"));
+    formSwitch.checked = formSwitchStatus;
 
     if (getValues().film) {
-      form.requestSubmit(submitButton);
+      form.requestSubmit(submitButton, formSwitch);
     }
   }, []);
 
@@ -43,7 +41,6 @@ function SearchForm({
         onSubmit={handleSubmit((data) => {
           localStorage.setItem("searchQuery", JSON.stringify(data.film));
           onSearchQueryInput(data.film);
-          onSubmitAllMovies();
         })}
         className="movies__search-form"
       >
@@ -71,7 +68,7 @@ function SearchForm({
         <label className="movies__search-form-filter-switch">
           <input
             {...register("switch", { value: isSwitchOn })}
-            onClick={appContext.onSwitchToggle}
+            onClick={onSwitchToggle}
             className="movies__search-form-input-switch"
             type="checkbox"
             name="shortFilm"

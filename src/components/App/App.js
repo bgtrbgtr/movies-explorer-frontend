@@ -30,20 +30,21 @@ function App() {
     message: "",
   });
   const [currentUser, setCurrentUser] = useState();
+
   const [isRegistrationOk, setIsRegistrationOk] = useState({
     status: true,
     message: "При регистрации пользователя произошла ошибка",
   });
   const [isChangeInfoOk, setIsChangeInfoOk] = useState({
     status: true,
-    message: "При обновлении профиля произошла ошибка",
+    message: "Информация успешно обновлена",
   });
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isSwitchOn, setIsSwitchOn] = useState(true);
-  const [isSavedMoviesSwitchOn, setIsSavedMoviesSwitchOn] = useState(true);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSavedMoviesSwitchOn, setIsSavedMoviesSwitchOn] = useState(false);
 
   const onSwitchToggle = (e) => {
     setIsSwitchOn(e.target.checked);
@@ -52,7 +53,6 @@ function App() {
 
   const onSavedMoviesSwitchToggle = (e) => {
     setIsSavedMoviesSwitchOn(e.target.checked);
-    localStorage.setItem("isSavedMoviesSwitchOn", e.target.checked);
   };
 
   const handlePopupClose = () => {
@@ -67,16 +67,15 @@ function App() {
   };
 
   useEffect(() => {
-    if (loggedIn.status) {
-      getSavedMoviesCards();
-    }
+    let formSwitchStatus = JSON.parse(localStorage.getItem("isSwitchOn"));
+    setIsSwitchOn(formSwitchStatus);
   }, []);
 
   const filterSavedMoviesCards = (savedMovies, query) => {
     return moviesFilter.getSearchResults(savedMovies, query);
   };
 
-  const getMoviesCards = () => {
+  const downloadMoviesCards = () => {
     setIsLoading(true);
     moviesApi
       .getMoviesInfo()
@@ -111,7 +110,7 @@ function App() {
     if (!isLiked) {
       mainApi.addMovieToSaved(card).then((res) => {
         mainApi.likeCard(res, false).then((newCard) => {
-          setSavedMovies([...savedMovies, newCard]);
+          setSavedMovies([newCard, ...savedMovies]);
         });
 
         setIsLiked(!isLiked);
@@ -131,8 +130,11 @@ function App() {
             isPopupOpen={isPopupOpen}
             onPopupClose={handlePopupClose}
             setSavedMovies={setSavedMovies}
+            setCards={setCards}
             setIsRegistrationOk={setIsRegistrationOk}
             setIsChangeInfoOk={setIsChangeInfoOk}
+            getSavedMovies={getSavedMoviesCards}
+            downloadMoviesCards={downloadMoviesCards}
           />
         }
       >
@@ -145,7 +147,6 @@ function App() {
               index
               element={
                 <Movies
-                  onSearchFormSubmit={getMoviesCards}
                   cards={cards}
                   isLoading={isLoading}
                   handleLike={handleMovieLike}

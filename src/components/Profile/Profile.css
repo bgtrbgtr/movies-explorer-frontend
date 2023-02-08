@@ -93,6 +93,10 @@
   text-align: right;
 }
 
+.field-error__no-errors {
+  color: #000;
+}
+
 @media screen and (max-width: 768px) {
   .profile__heading {
     margin: 236px auto 96px;

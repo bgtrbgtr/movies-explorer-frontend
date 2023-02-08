@@ -10,14 +10,20 @@ function AppLayout({
   isPopupOpen,
   onPopupClose,
   setSavedMovies,
+  setCards,
   setIsRegistrationOk,
   setIsChangeInfoOk,
+  getSavedMovies,
+  downloadMoviesCards,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     checkToken();
+    if (localStorage.getItem("jwt")) {
+      downloadMoviesCards();
+    }
   }, []);
 
   function checkToken() {
@@ -26,6 +32,7 @@ function AppLayout({
       auth.getContent(jwt).then((res) => {
         setLoggedIn({ status: true });
         setCurrentUser(res);
+        getSavedMovies();
       });
     } else {
       setLoggedIn({
@@ -48,6 +55,9 @@ function AppLayout({
       })
       .then(() => {
         navigate("/movies");
+        if (localStorage.getItem("jwt")) {
+          downloadMoviesCards();
+        }
       })
       .catch((e) => {
         if (e === 401) {
@@ -76,6 +86,7 @@ function AppLayout({
     localStorage.clear();
     setCurrentUser({});
     setSavedMovies([]);
+    setCards([]);
     navigate("/");
   }
 
@@ -84,7 +95,13 @@ function AppLayout({
       .register(name, email, password)
       .then(() => {
         setIsRegistrationOk({ status: true });
-        navigate("/signin");
+        handleLogin({ email, password });
+      })
+      .then(() => {
+        navigate("/movies");
+        if (localStorage.getItem("jwt")) {
+          downloadMoviesCards();
+        }
       })
       .catch((e) => {
         if (e === 409) {
@@ -113,7 +130,10 @@ function AppLayout({
       .changeUserInfo({ name, email })
       .then((res) => {
         setCurrentUser(res);
-        setIsChangeInfoOk({ status: true });
+        setIsChangeInfoOk({
+          status: true,
+          message: "Информация успешно обновлена",
+        });
       })
       .catch((e) => {
         if (e === 503) {
@@ -132,7 +152,10 @@ function AppLayout({
             message: "404 Страница по указанному маршруту не найдена",
           });
         } else {
-          setIsChangeInfoOk({ status: false });
+          setIsChangeInfoOk({
+            status: false,
+            message: "При обновлении профиля произошла ошибка",
+          });
         }
       });
   }

@@ -8,6 +8,7 @@ function Header({ onPopupOpen }) {
   const appContext = useContext(AppContext);
   const navContext = useContext(NavContext);
   const currentLocation = navContext.location.pathname;
+  const loggedIn = appContext.loggedIn.status;
 
   return (
     <header
@@ -18,7 +19,7 @@ function Header({ onPopupOpen }) {
       <Link className="header__logo" to={"/"}>
         <img alt="Main logo" src={logoSvg} />
       </Link>
-      {appContext.loggedIn.status ? (
+      {loggedIn ? (
         <>
           <div className="header__invisible-wrapper">
             <Link

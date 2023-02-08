@@ -13,15 +13,9 @@ export const defineLimitToSet = (screenWidth, setLimit, setCardsToUpload) => {
 
 export const getSearchResults = (cards, searchQuery) => {
   let result = cards?.filter((card) => {
-    let onDescription =
-      card?.description.toLowerCase().indexOf(searchQuery?.toLowerCase()) !==
-      -1;
-    let onNameRU =
-      card?.nameRU.toLowerCase().indexOf(searchQuery?.toLowerCase()) !== -1;
-
-    let onNameEN =
-      card?.nameEN.toLowerCase().indexOf(searchQuery?.toLowerCase()) !== -1;
-    return onDescription || onNameRU || onNameEN;
+    return (
+      card?.nameRU.toLowerCase().indexOf(searchQuery?.toLowerCase()) !== -1
+    );
   });
 
   return result;
