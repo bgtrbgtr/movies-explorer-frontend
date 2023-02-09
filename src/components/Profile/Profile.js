@@ -66,6 +66,7 @@ function Profile({ onPopupOpen, setIsChangeInfoOk }) {
             <label className="profile__form-row-caption">Имя</label>
             <input
               {...register("name", {
+                required: "Строка не может быть пустой",
                 minLength: {
                   value: 2,
                   message: "Имя должно содержать более 2 символов",
@@ -100,6 +101,7 @@ function Profile({ onPopupOpen, setIsChangeInfoOk }) {
             <label className="profile__form-row-caption">E-mail</label>
             <input
               {...register("email", {
+                required: "Строка не может быть пустой",
                 validate: {
                   isCorrect: (value) => {
                     if (value) {
