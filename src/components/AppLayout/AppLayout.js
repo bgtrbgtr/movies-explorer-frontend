@@ -21,9 +21,9 @@ function AppLayout({
 
   useEffect(() => {
     checkToken();
-    if (localStorage.getItem("jwt")) {
-      downloadMoviesCards();
-    }
+    // if (localStorage.getItem("jwt")) {
+    //   downloadMoviesCards();
+    // }
   }, []);
 
   function checkToken() {
@@ -55,9 +55,6 @@ function AppLayout({
       })
       .then(() => {
         navigate("/movies");
-        if (localStorage.getItem("jwt")) {
-          downloadMoviesCards();
-        }
       })
       .catch((e) => {
         if (e === 401) {
@@ -99,9 +96,6 @@ function AppLayout({
       })
       .then(() => {
         navigate("/movies");
-        if (localStorage.getItem("jwt")) {
-          downloadMoviesCards();
-        }
       })
       .catch((e) => {
         if (e === 409) {
@@ -130,6 +124,8 @@ function AppLayout({
       .changeUserInfo({ name, email })
       .then((res) => {
         setCurrentUser(res);
+      })
+      .then(() => {
         setIsChangeInfoOk({
           status: true,
           message: "Информация успешно обновлена",

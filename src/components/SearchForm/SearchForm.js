@@ -3,7 +3,13 @@ import { AppContext } from "../../contexts";
 import { useForm } from "react-hook-form";
 import { Button } from "..";
 
-function SearchForm({ onSearchQueryInput, setFirstRender }) {
+function SearchForm({
+  firstRender,
+  onSearchQueryInput,
+  setFirstRender,
+  downloadMoviesCards,
+  cards,
+}) {
   const {
     register,
     formState: { errors },
@@ -15,8 +21,11 @@ function SearchForm({ onSearchQueryInput, setFirstRender }) {
   const isSwitchOn = appContext.isSwitchOn;
   const onSwitchToggle = appContext.onSwitchToggle;
 
-  const onRender = () => {
-    setFirstRender(false);
+  const onFirstSubmit = () => {
+    if (firstRender && cards.length === 0) {
+      downloadMoviesCards();
+      setFirstRender(false);
+    }
   };
 
   useEffect(() => {
@@ -39,9 +48,9 @@ function SearchForm({ onSearchQueryInput, setFirstRender }) {
     <>
       <form
         onSubmit={handleSubmit((data) => {
+          onFirstSubmit();
           localStorage.setItem("searchQuery", JSON.stringify(data.film));
           onSearchQueryInput({ all: data.film });
-          onRender();
         })}
         className="movies__search-form"
       >

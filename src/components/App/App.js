@@ -18,7 +18,6 @@ import {
 import { mainApi, moviesApi } from "../../utils";
 import { AppContext, CurrentUserContext } from "../../contexts";
 import AppLayout from "../AppLayout/AppLayout";
-import { moviesFilter } from "../../utils";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +35,8 @@ function App() {
     message: "При регистрации пользователя произошла ошибка",
   });
   const [isChangeInfoOk, setIsChangeInfoOk] = useState({
-    status: true,
-    message: "Информация успешно обновлена",
+    status: false,
+    message: "",
   });
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -146,6 +145,7 @@ function App() {
                   cards={cards}
                   isLoading={isLoading}
                   handleLike={handleMovieLike}
+                  downloadMoviesCards={downloadMoviesCards}
                 />
               }
             />
@@ -159,7 +159,12 @@ function App() {
         <Route element={<ProtectedRoute user={currentUser} />}>
           <Route
             path="profile"
-            element={<Profile onPopupOpen={handlePopupOpen} />}
+            element={
+              <Profile
+                onPopupOpen={handlePopupOpen}
+                setIsChangeInfoOk={setIsChangeInfoOk}
+              />
+            }
           />
         </Route>
         <Route path="signin" element={<Login />} />

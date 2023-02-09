@@ -2,7 +2,13 @@ import { useState, useContext } from "react";
 import { NavContext } from "../../contexts";
 import { MoviesCardList, SearchForm, SearchSavedForm, Preloader } from "..";
 
-function Movies({ cards, isLoading, handleLike, handleDeleteCard }) {
+function Movies({
+  cards,
+  isLoading,
+  handleLike,
+  handleDeleteCard,
+  downloadMoviesCards,
+}) {
   const [searchQuery, setSearchQuery] = useState({
     all: "",
     saved: "",
@@ -18,6 +24,8 @@ function Movies({ cards, isLoading, handleLike, handleDeleteCard }) {
           onSearchQueryInput={setSearchQuery}
           setFirstRender={setFirstRender}
           firstRender={firstRender}
+          downloadMoviesCards={downloadMoviesCards}
+          cards={cards}
         />
       ) : (
         <SearchSavedForm onSearchQueryInput={setSearchQuery} />

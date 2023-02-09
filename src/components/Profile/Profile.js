@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { NavContext, CurrentUserContext, AppContext } from "../../contexts";
 import { Button, Header } from "..";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Joi from "joi-browser";
 
-function Profile({ onPopupOpen }) {
+function Profile({ onPopupOpen, setIsChangeInfoOk }) {
   const navContext = useContext(NavContext);
   const userContext = useContext(CurrentUserContext).currentUser;
   const appContext = useContext(AppContext);
@@ -16,6 +16,7 @@ function Profile({ onPopupOpen }) {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitted },
+    getValues,
   } = useForm({
     mode: "onChange",
     values: {
@@ -34,6 +35,22 @@ function Profile({ onPopupOpen }) {
     });
   };
 
+  const onError = (e) => {
+    if (e.email.type === "isNew" && e.name.type === "validate") {
+      setIsChangeInfoOk({
+        status: false,
+        message: "Вы не внесли никаких изменений",
+      });
+
+      return;
+    }
+
+    setIsChangeInfoOk({
+      status: false,
+      message: e.message,
+    });
+  };
+
   return (
     <div>
       <Header onPopupOpen={onPopupOpen} />
@@ -42,7 +59,7 @@ function Profile({ onPopupOpen }) {
         <form
           name="profile-info"
           className="profile__form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, onError)}
           method="post"
         >
           <div className="profile__form-row">
@@ -58,7 +75,16 @@ function Profile({ onPopupOpen }) {
                   message: "Имя не должно содержать более 30 симолов",
                 },
                 validate: (value) => {
-                  const result = value !== userContext?.name;
+                  const values = getValues();
+                  let result = true;
+
+                  if (
+                    value === userContext?.name &&
+                    values?.email === userContext?.email
+                  ) {
+                    result = false;
+                  }
+
                   return result ? null : "Новое имя совпадает с текущим";
                 },
               })}
@@ -85,7 +111,15 @@ function Profile({ onPopupOpen }) {
                     }
                   },
                   isNew: (value) => {
-                    const result = value !== userContext?.email;
+                    const values = getValues();
+                    let result = true;
+                    if (
+                      values?.name === userContext?.name &&
+                      value === userContext?.email
+                    ) {
+                      result = false;
+                    }
+
                     return result ? null : "Новая почта совпадает с текущей";
                   },
                 },
@@ -114,7 +148,7 @@ function Profile({ onPopupOpen }) {
             }`}
             type="submit"
             buttonText="Редактировать"
-            disable={isValid}
+            disabled={!isValid}
           />
         </form>
         <Button
