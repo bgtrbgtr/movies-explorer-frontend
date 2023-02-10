@@ -1,32 +1,36 @@
 import { Button } from "..";
 import { Link } from "react-router-dom";
 import logoSvg from "../../images/logo.svg";
-import { AppContext } from "../../contexts/AppContext";
+import { AppContext, NavContext } from "../../contexts";
 import { useContext } from "react";
 
 function Header({ onPopupOpen }) {
-  const context = useContext(AppContext);
+  const appContext = useContext(AppContext);
+  const navContext = useContext(NavContext);
+  const currentLocation = navContext.location.pathname;
+  const loggedIn = appContext.loggedIn.status;
 
   return (
     <header
       className={
-        context.location.pathname === "/"
-          ? "header header_location_main"
-          : "header"
+        currentLocation === "/" ? "header header_location_main" : "header"
       }
     >
       <Link className="header__logo" to={"/"}>
         <img alt="Main logo" src={logoSvg} />
       </Link>
-      {context.loggedIn ? (
+      {loggedIn ? (
         <>
           <div className="header__invisible-wrapper">
             <Link
               to={"/movies"}
               className={
-                context.location.pathname === "/"
-                  ? "header__link header__link_type_signed-bold header__link_color_white"
-                  : "header__link header__link_type_signed-bold"
+                currentLocation === "/"
+                  ? "header__link header__link_type_signed-regular header__link_color_white"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/movies"
+                  ? "header__link header__link_type_signed-bold"
+                  : "header__link header__link_type_signed-regular"
               }
             >
               Фильмы
@@ -34,9 +38,12 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/saved-movies"}
               className={
-                context.location.pathname === "/"
+                currentLocation === "/"
                   ? "header__link header__link_type_signed-regular  header__link_color_white"
-                  : "header__link header__link_type_signed-regular"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/saved-movies"
+                  ? "header__link header__link_type_signed_bold"
+                  : "header__link header__link_type_signed_regular"
               }
             >
               Сохраненные фильмы
@@ -44,9 +51,12 @@ function Header({ onPopupOpen }) {
             <Link
               to={"/profile"}
               className={
-                context.location.pathname === "/"
-                  ? "header__link header__link_type_signed-bold header__link_color_white"
-                  : "header__link header__link_type_signed-bold"
+                currentLocation === "/"
+                  ? "header__link header__link_type_signed-regular header__link_color_white"
+                  : "header__link header__link_type_signed-regular" &&
+                    currentLocation === "/profile"
+                  ? "header__link header__link_type_signed-bold"
+                  : "header__link header__link_type_signed-regular"
               }
             >
               Аккаунт

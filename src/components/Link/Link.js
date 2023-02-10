@@ -7,6 +7,7 @@ function Link(props) {
       rel="noreferrer"
     >
       {props.linkText}
+      {props.children}
     </a>
   );
 }

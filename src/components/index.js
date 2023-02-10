@@ -23,6 +23,9 @@ import NotFound from "./NotFound/NotFound";
 import Layout from "./Layout/Layout";
 import AllMovies from "./AllMovies/AllMovies";
 import MenuPopup from "./MenuPopup/MenuPopup";
+import AppLayout from "./AppLayout/AppLayout";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import SearchSavedForm from "./SearchSavedForm/SearchSavedForm";
 
 export {
   App,
@@ -50,4 +53,7 @@ export {
   Layout,
   AllMovies,
   MenuPopup,
+  AppLayout,
+  ProtectedRoute,
+  SearchSavedForm,
 };

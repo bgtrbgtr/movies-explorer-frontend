@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { AppContext } from "../../contexts/AppContext";
-import { Button } from "..";
+import { NavContext, CurrentUserContext } from "../../contexts";
+import { Button, Link } from "..";
 
-function MoviesCard({ card }) {
-  const context = useContext(AppContext);
+function MoviesCard({ card, handleLike, handleDelete }) {
+  const savedCards = useContext(CurrentUserContext).savedMovies;
+  const context = useContext(NavContext);
   const [isHovered, setIsHovered] = useState(false);
 
   function getFormattedDuration(totalMinutes) {
@@ -14,24 +15,36 @@ function MoviesCard({ card }) {
     return result;
   }
 
+  const onCardLike = () => {
+    handleLike(card);
+  };
+
+  const onCardDelete = () => {
+    handleDelete(card);
+  };
+
+  const isLiked = savedCards?.some((i) => i.nameRU === card.nameRU);
+
   return (
     <div
-      className={
-        context.location.pathname === "/saved-movies"
-          ? "movies-card movies-card_type_saved"
-          : "movies-card"
-      }
+      className="movies-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
-        className="movies-card__image"
-        src={`https://api.nomoreparties.co/${card.image.url}`}
-        alt={`Постер к фильму: ${card.nameRU}`}
-        style={{
-          objectFit: "cover",
-        }}
-      />
+      <Link href={card.trailerLink}>
+        <img
+          className="movies-card__image"
+          src={
+            context.location.pathname === "/saved-movies"
+              ? card.image
+              : `https://api.nomoreparties.co${card.image.url}`
+          }
+          alt={`Постер к фильму: ${card.nameRU}`}
+          style={{
+            objectFit: "cover",
+          }}
+        />
+      </Link>
       <div className="movies-card__movie-info">
         <div className="movies-card__name-container">
           <h3 className="movies-card__movie-name">{card.nameRU}</h3>
@@ -44,6 +57,7 @@ function MoviesCard({ card }) {
               }
             >
               <Button
+                onClick={onCardDelete}
                 className="movies-card__delete-icon"
                 ariaLabel="Удалить карточку"
               />
@@ -51,8 +65,13 @@ function MoviesCard({ card }) {
           ) : (
             <div className="movies-card__like-container">
               <Button
-                className="movies-card__like movies-card__like_status_disable"
+                className={`movies-card__like ${
+                  isLiked
+                    ? "movies-card__like_status_enable"
+                    : "movies-card__like_status_disable"
+                }`}
                 ariaLabel="Поставить/снять лайк"
+                onClick={onCardLike}
               />
             </div>
           )}

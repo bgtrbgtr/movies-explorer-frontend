@@ -5,6 +5,7 @@ function Button(props) {
       className={`button ${props.className}`}
       aria-label={props.ariaLabel}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.buttonText}
       {props.children ? props.children : null}

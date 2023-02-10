@@ -21,3 +21,5 @@
 @import url(./components/MoviesCard/MoviesCard.css);
 @import url(./components/MenuPopup/MenuPopup.css);
 @import url(./components/Login/Login.css);
+@import url(./components/Preloader/Preloader.css);
+@import url(./components/AllMovies/AllMovies.css);

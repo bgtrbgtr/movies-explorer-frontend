@@ -1,8 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AppContext, NavContext } from "../../contexts";
 import { Button } from "..";
 
-function Form({ name, onSubmit, title, buttonText, children }) {
-  let location = useLocation();
+function Form({ name, onSubmit, title, buttonText, children, formState }) {
+  const appContext = useContext(AppContext);
+  const navContext = useContext(NavContext);
+  const isRegistrationOk = appContext.isRegistrationOk;
+  const loggedIn = appContext.loggedIn;
+
+  let location = navContext.location;
 
   return (
     <form
@@ -14,11 +21,30 @@ function Form({ name, onSubmit, title, buttonText, children }) {
     >
       <h2 className="form__heading">{title}</h2>
       {children}
+      {location.pathname === "/signup" ? (
+        <p
+          className={`field-error field-error__submit ${
+            isRegistrationOk.status ? "field-error__submit_invisible" : ""
+          }`}
+        >
+          {isRegistrationOk.message}
+        </p>
+      ) : null}
+      {location.pathname === "/signin" ? (
+        <p
+          className={`field-error field-error__submit ${
+            loggedIn.status ? "" : "field-error__submit_invisible"
+          }`}
+        >
+          {loggedIn.message}
+        </p>
+      ) : null}
       <Button
         ariaLabel="Отправить данные"
         type="submit"
-        className="form__submit"
+        className={`form__submit ${formState ? "" : "form__submit_disable"}`}
         buttonText={buttonText}
+        disabled={!formState}
       />
       {location.pathname === "/signup" ? (
         <div className="form__option-box">

@@ -23,6 +23,11 @@
   color: #fff;
 }
 
+.form__submit_disable {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+}
+
 .form__option-box {
   margin-top: 16px;
   display: flex;
@@ -46,6 +51,28 @@
   text-decoration: none;
 }
 
+.field-error__submit {
+  position: static;
+  text-align: center;
+  justify-self: start;
+  margin: 0;
+  margin-bottom: 20px;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility opacity 0.5s ease;
+}
+
+.field-error__submit_invisible {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media screen and (max-width: 550px) {
+  .field-error__submit {
+    bottom: 110px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .form__heading {
     margin-bottom: 80px;
@@ -65,5 +92,9 @@
   .form__option-link {
     font-size: 12px;
     line-height: 15px;
+  }
+
+  .field-error__submit {
+    bottom: 75px;
   }
 }

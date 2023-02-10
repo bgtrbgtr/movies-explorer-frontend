@@ -1,13 +1,28 @@
 import { MoviesCard } from "..";
 
-function SavedMovies({ cards }) {
-  return (
-    <div className="movies-card-list__list">
-      {cards
-        ? cards.map((card) => <MoviesCard key={card.id} card={card} />)
-        : null}
-    </div>
-  );
+function SavedMovies({ handleDeleteCard, cards, searchResults }) {
+  const renderCards =
+    searchResults.length === 0
+      ? cards?.map((card) => {
+          return (
+            <MoviesCard
+              handleDelete={handleDeleteCard}
+              key={card._id}
+              card={card}
+            />
+          );
+        })
+      : searchResults?.map((card) => {
+          return (
+            <MoviesCard
+              handleDelete={handleDeleteCard}
+              key={card._id}
+              card={card}
+            />
+          );
+        });
+
+  return <div className="movies-card-list__list">{renderCards}</div>;
 }
 
 export default SavedMovies;
