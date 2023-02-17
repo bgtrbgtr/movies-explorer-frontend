@@ -7,7 +7,7 @@ function Footer() {
         Учебный проект Яндекс.Практикум х BeatFilm.
       </p>
       <div className="footer__links">
-        <p className="footer__year">© 2022</p>
+        <p className="footer__year">© 2023</p>
         <Link
           className="footer__link"
           linkText="Яндекс.Практикум"
